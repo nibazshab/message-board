@@ -31,17 +31,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <input id="sub" type="submit">
     </form>
     <ul id="msgs">
-        <?php
-        $conn = new mysqli($host, $user, $password, $dbname);
-        $sql = "SELECT message FROM messages ORDER BY id DESC";
-        $result = $conn->query($sql);
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo "<li>" . htmlspecialchars($row["message"]) . "</li>";
-            }
-        }
-        $conn->close();
-        ?>
+<?php
+$conn = new mysqli($host, $user, $password, $dbname);
+$sql = "SELECT message FROM messages ORDER BY id DESC";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        echo "<li>" . htmlspecialchars($row["message"]) . "</li>";
+    }
+}
+$conn->close();
+?>
     </ul>
 </body>
 <script>
@@ -56,14 +56,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         sub.disabled = true;
         con.value = "";
         fetch('', {
-                method: "POST",
-                body: new URLSearchParams({
-                    message
-                })
-            })
+            method: "POST",
+            body: new URLSearchParams({ message })
+        })
             .then(response => response.text())
-            .then(data => {
-                msgs.insertAdjacentHTML("afterbegin", `<li>${data}</li>`);
+            .then(msg => {
+                msgs.insertAdjacentHTML("afterbegin", `<li>${msg}</li>`);
                 sub.disabled = false;
             })
     }

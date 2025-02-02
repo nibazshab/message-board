@@ -46,23 +46,23 @@ $conn->close();
 </body>
 <script>
     const con = document.getElementById('con')
-    const sub = document.getElementById('sub');
+    const sub = document.getElementById('sub')
     const msgs = document.getElementById('msgs')
 
     function subf(event) {
-        event.preventDefault();
-        const message = con.value.trim();
-        if (!message) return;
-        sub.disabled = true;
-        con.value = "";
+        event.preventDefault()
+        const message = con.value.trim()
+        if (!message) return
+        sub.disabled = true
+        con.value = ""
         fetch('', {
             method: "POST",
             body: new URLSearchParams({ message })
         })
             .then(response => response.text())
             .then(msg => {
-                msgs.insertAdjacentHTML("afterbegin", `<li>${msg}</li>`);
-                sub.disabled = false;
+                msgs.insertAdjacentHTML("afterbegin", `<li>${msg}</li>`)
+                sub.disabled = false
             })
     }
 </script>

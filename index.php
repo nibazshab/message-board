@@ -31,6 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <input id="sub" type="submit">
     </form>
     <ul id="msgs">
+
 <?php
 $conn = new mysqli($host, $user, $password, $dbname);
 $sql = "SELECT message FROM messages ORDER BY id DESC";
@@ -42,8 +43,10 @@ if ($result->num_rows > 0) {
 }
 $conn->close();
 ?>
+
     </ul>
 </body>
+
 <script>
     const con = document.getElementById('con')
     const sub = document.getElementById('sub')

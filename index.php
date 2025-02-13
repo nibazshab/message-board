@@ -26,10 +26,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </style>
 
 <body style="margin: 0;">
-    <form onsubmit="subf(event)">
-        <textarea id="con" style="width: 100%; resize: none;"></textarea>
-        <input id="sub" type="submit">
-    </form>
+    <textarea id="con" style="width: 100%; resize: none;"></textarea>
+    <input id="sub" type="submit">
     <ul id="msgs">
 
 <?php
@@ -52,8 +50,7 @@ $conn->close();
     const sub = document.getElementById('sub')
     const msgs = document.getElementById('msgs')
 
-    function subf(event) {
-        event.preventDefault()
+    sub.addEventListener("click", () => {
         const message = con.value.trim()
         if (!message) return
         sub.disabled = true
@@ -67,5 +64,5 @@ $conn->close();
                 msgs.insertAdjacentHTML("afterbegin", `<li>${msg}</li>`)
                 sub.disabled = false
             })
-    }
+    })
 </script>

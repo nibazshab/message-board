@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <?php
 $conn = new mysqli($host, $user, $password, $dbname);
-$sql = "SELECT message FROM messages ORDER BY id DESC";
+$sql = "SELECT message FROM messages ORDER BY id DESC"; // LIMIT 50";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {

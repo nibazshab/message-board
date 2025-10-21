@@ -37,12 +37,10 @@ $page = max((int)($_GET['page'] ?? 1), 1);
 $record = 100;
 $offset = ($page - 1) * $record;
 
-$sql = "SELECT COUNT(*) AS total FROM messages";
-$result = $conn->query($sql);
-$pages = ceil($result ->fetch_assoc()['total'] / $record );
+$result = $conn->query("SELECT COUNT(*) AS total FROM messages");
+$pages = ceil($result ->fetch_assoc()['total'] / $record);
 
-$sql = "SELECT message FROM messages ORDER BY id DESC LIMIT $offset, $record ";
-$result = $conn->query($sql);
+$result = $conn->query("SELECT message FROM messages ORDER BY id DESC LIMIT $offset, $record");
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         echo "<li>" . htmlspecialchars($row["message"]) . "</li>";

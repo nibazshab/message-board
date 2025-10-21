@@ -32,7 +32,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <?php
 $conn = new mysqli($host, $user, $password, $dbname);
-$sql = "SELECT message FROM messages ORDER BY id DESC"; // LIMIT 50";
+  
+$page = max((int)($_GET['page'] ?? 1), 1);
+$record = 100;
+$offset = ($page - 1) * $record;
+
+$sql = "SELECT COUNT(*) AS total FROM messages";
+$result = $conn->query($sql);
+$pages = ceil($result ->fetch_assoc()['total'] / $record );
+
+$sql = "SELECT message FROM messages ORDER BY id DESC LIMIT $offset, $record ";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
@@ -43,6 +52,18 @@ $conn->close();
 ?>
 
     </ul>
+
+页码
+<?php
+for ($i = 1; $i <= $pages; $i++) {
+    if ($i == $page) {
+        echo "$i ";
+    } else {
+        echo "<a href='?page=$i'>$i</a> ";
+    }
+}
+?>
+
 </body>
 
 <script>

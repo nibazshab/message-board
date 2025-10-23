@@ -51,13 +51,15 @@ $conn->close();
 
     </ul>
 
-页码
 <?php
-for ($i = 1; $i <= $pages; $i++) {
-    if ($i == $page) {
-        echo "$i ";
-    } else {
-        echo "<a href='?page=$i'>$i</a> ";
+if ($pages > 1) {
+    echo "页码 ";
+    for ($i = 1; $i <= $pages; $i++) {
+        if ($i == $page) {
+            echo "$i ";
+        } else {
+            echo "<a href='?page=$i'>$i</a> ";
+        }
     }
 }
 ?>

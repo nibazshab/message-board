@@ -4,9 +4,10 @@ $user = "root";
 $password = "";
 $dbname = "mysql";
 
+$conn = new mysqli($host, $user, $password, $dbname);
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $message = $_POST["message"];
-    $conn = new mysqli($host, $user, $password, $dbname);
     $stmt = $conn->prepare("INSERT INTO messages (message) VALUES (?)");
     $stmt->bind_param("s", $message);
     $stmt->execute();
@@ -31,14 +32,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <ul id="msgs">
 
 <?php
-$conn = new mysqli($host, $user, $password, $dbname);
-  
 $page = max((int)($_GET['page'] ?? 1), 1);
 $record = 100;
 $offset = ($page - 1) * $record;
-
-$result = $conn->query("SELECT COUNT(*) AS total FROM messages");
-$pages = ceil($result ->fetch_assoc()['total'] / $record);
 
 $result = $conn->query("SELECT message FROM messages ORDER BY id DESC LIMIT $offset, $record");
 if ($result->num_rows > 0) {
@@ -46,12 +42,14 @@ if ($result->num_rows > 0) {
         echo "<li>" . htmlspecialchars($row["message"]) . "</li>";
     }
 }
-$conn->close();
 ?>
 
     </ul>
 
 <?php
+$result = $conn->query("SELECT COUNT(*) AS total FROM messages");
+$pages = ceil($result ->fetch_assoc()['total'] / $record);
+
 if ($pages > 1) {
     echo "页码 ";
     for ($i = 1; $i <= $pages; $i++) {
@@ -62,6 +60,8 @@ if ($pages > 1) {
         }
     }
 }
+
+$conn->close();
 ?>
 
 </body>

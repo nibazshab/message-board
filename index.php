@@ -48,7 +48,7 @@ if ($result->num_rows > 0) {
 
 <?php
 $result = $conn->query("SELECT COUNT(*) AS total FROM messages");
-$pages = ceil($result ->fetch_assoc()['total'] / $record);
+$pages = ceil($result->fetch_assoc()['total'] / $record);
 
 if ($pages > 1) {
     echo "页码 ";

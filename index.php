@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <ul id="msgs">
 
 <?php
-$page = max((int)($_GET['page'] ?? 1), 1);
+$page = max((int)($_GET["page"] ?? 1), 1);
 $record = 100;
 $offset = ($page - 1) * $record;
 
@@ -48,7 +48,7 @@ if ($result->num_rows > 0) {
 
 <?php
 $result = $conn->query("SELECT COUNT(*) AS total FROM messages");
-$pages = ceil($result->fetch_assoc()['total'] / $record);
+$pages = ceil($result->fetch_assoc()["total"] / $record);
 
 if ($pages > 1) {
     echo "页码 ";
@@ -67,16 +67,16 @@ $conn->close();
 </body>
 
 <script>
-    const con = document.getElementById('con')
-    const sub = document.getElementById('sub')
-    const msgs = document.getElementById('msgs')
+    const con = document.getElementById("con")
+    const sub = document.getElementById("sub")
+    const msgs = document.getElementById("msgs")
 
     sub.addEventListener("click", () => {
         const message = con.value.trim()
         if (!message) return
         sub.disabled = true
         con.value = ""
-        fetch('', {
+        fetch("", {
             method: "POST",
             body: new URLSearchParams({ message })
         })

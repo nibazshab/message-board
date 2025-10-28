@@ -4,11 +4,11 @@ $user = "root";
 $password = "";
 $dbname = "mysql";
 
-ini_set('display_errors', 0);
+ini_set("display_errors", 0);
 
 $conn = new mysqli($host, $user, $password, $dbname);
 
-$pages_k = 'pages';
+$pages_k = "pages";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $message = $_POST["message"];
@@ -91,13 +91,14 @@ $conn->close();
         })
             .then(response => {
                 if (response.ok) {
-                    const li = document.createElement('li');
+                    const li = document.createElement("li");
                     li.textContent = message;
                     msgs.insertBefore(li, msgs.firstChild);
                 } else {
-                    msgs.insertAdjacentHTML("afterbegin", `<li><p style="color: red;">error 500</p></li>`)
+                    con.value = message;
+                    msgs.insertAdjacentHTML("afterbegin", `<li><p style="color: red;">error</p></li>`)
                 }
-            sub.disabled = false;
-        })
+                sub.disabled = false;
+            })
     })
 </script>

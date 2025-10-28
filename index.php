@@ -4,6 +4,8 @@ $user = "root";
 $password = "";
 $dbname = "mysql";
 
+ini_set('display_errors', 0);
+
 $conn = new mysqli($host, $user, $password, $dbname);
 
 $pages_k = 'pages';
@@ -15,7 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->execute();
     $stmt->close();
     $conn->close();
-    echo htmlspecialchars($message);
     apcu_delete($pages_k);
     exit();
 }
@@ -88,10 +89,15 @@ $conn->close();
             method: "POST",
             body: new URLSearchParams({ message })
         })
-            .then(response => response.text())
-            .then(msg => {
-                msgs.insertAdjacentHTML("afterbegin", `<li>${msg}</li>`)
-                sub.disabled = false
-            })
+            .then(response => {
+                if (response.ok) {
+                    const li = document.createElement('li');
+                    li.textContent = message;
+                    msgs.insertBefore(li, msgs.firstChild);
+                } else {
+                    msgs.insertAdjacentHTML("afterbegin", `<li><p style="color: red;">error 500</p></li>`)
+                }
+            sub.disabled = false;
+        })
     })
 </script>

@@ -6,6 +6,8 @@ $dbname = "mysql";
 
 $conn = new mysqli($host, $user, $password, $dbname);
 
+$pages_k = 'pages';
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $message = $_POST["message"];
     $stmt = $conn->prepare("INSERT INTO messages (message) VALUES (?)");
@@ -14,6 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt->close();
     $conn->close();
     echo htmlspecialchars($message);
+    apcu_delete($pages_k);
     exit();
 }
 ?>
@@ -47,8 +50,13 @@ if ($result->num_rows > 0) {
     </ul>
 
 <?php
-$result = $conn->query("SELECT COUNT(*) AS total FROM messages");
-$pages = ceil($result->fetch_assoc()["total"] / $record);
+$pages = apcu_fetch($pages_k);
+
+if ($pages === false) {
+    $result = $conn->query("SELECT COUNT(*) AS total FROM messages");
+    $pages = ceil($result->fetch_assoc()["total"] / $record);
+    apcu_store($pages_k, $pages, 120);
+}
 
 if ($pages > 1) {
     echo "页码 ";

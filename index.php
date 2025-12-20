@@ -12,7 +12,7 @@ $pages_k = "pages";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $message = $_POST["message"];
-    $stmt = $conn->prepare("INSERT INTO messages (message) VALUES (?)");
+    $stmt = $conn->prepare("INSERT INTO messages (message) VALUES (HEX(?))");
     $stmt->bind_param("s", $message);
     $stmt->execute();
     $stmt->close();
@@ -40,7 +40,7 @@ $page = max((int)($_GET["page"] ?? 1), 1);
 $record = 100;
 $offset = ($page - 1) * $record;
 
-$result = $conn->query("SELECT message FROM messages ORDER BY id DESC LIMIT $offset, $record");
+$result = $conn->query("SELECT UNHEX(message) AS message FROM messages ORDER BY id DESC LIMIT $offset, $record");
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         echo "<li>" . htmlspecialchars($row["message"]) . "</li>";

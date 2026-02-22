@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <style>
     li {
         margin-bottom: 20px;
-        white-space: pre-wrap;
+        white-space: pre-wrap
     }
 </style>
 
@@ -91,14 +91,14 @@ $conn->close();
         })
             .then(response => {
                 if (response.ok) {
-                    const li = document.createElement("li");
-                    li.textContent = message;
-                    msgs.insertBefore(li, msgs.firstChild);
+                    const li = document.createElement("li")
+                    li.textContent = message
+                    msgs.insertBefore(li, msgs.firstChild)
                 } else {
-                    con.value = message;
+                    con.value = message
                     msgs.insertAdjacentHTML("afterbegin", `<li><p style="color: red;">error</p></li>`)
                 }
-                sub.disabled = false;
+                sub.disabled = false
             })
     })
 </script>
